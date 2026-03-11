@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Summit 2024</title>
+    <style>
+        :root {
+            --primary-color: #007BFF;
+            --secondary-color: #6c757d;
+            --background-color: #f8f9fa;
+            --surface-color: #ffffff;
+            --text-color: #333;
+            --border-color: #dee2e6;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        body {
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            border-bottom: 5px solid #0056b3; /* Darker shade of primary */
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        main {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .search-container {
+            margin-bottom: 2rem;
+        }
+        #search-bar {
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-sizing: border-box;
+        }
+        .schedule-item {
+            display: flex;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: var(--surface-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s ease-in-out;
+        }
+        .time-slot {
+            background-color: #e9ecef;
+            padding: 1.5rem;
+            text-align: center;
+            font-weight: bold;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+        }
+        .event-details {
+            padding: 1.5rem;
+            flex-grow: 1;
+            border-left: 1px solid var(--border-color);
+        }
+        .event-details h2 {
+            margin: 0 0 0.5rem;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+        .event-details .speakers {
+            font-style: italic;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+        .event-details .categories {
+            margin-top: 1rem;
+        }
+        .category-tag {
+            display: inline-block;
+            background-color: #e0e0e0;
+            color: #555;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .break .event-details h2 {
+            color: var(--secondary-color);
+        }
+        .transition {
+            background-color: transparent;
+            box-shadow: none;
+        }
+        .transition .time-slot {
+            background-color: transparent;
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+            width: 120px;
+        }
+        .transition .event-details {
+            border-left: none;
+            padding: 0 1.5rem;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+        }
+        @media (max-width: 600px) {
+            .schedule-item {
+                flex-direction: column;
+            }
+            .time-slot, .transition .time-slot {
+                width: 100%;
+                padding: 0.75rem;
+                border-bottom: 1px solid var(--border-color);
+                box-sizing: border-box;
+            }
+            .event-details {
+                border-left: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Tech Summit 2024</h1>
+        <p>A 1-Day Virtual Event on The Future of Technology</p>
+    </header>
+
+    <main>
+        <div class="search-container">
+            <input type="text" id="search-bar" placeholder="Filter by category (e.g., AI, Web, Cloud)...">
+        </div>
+        <div id="schedule-container">
+            <!-- Schedule will be rendered here by JavaScript -->
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const talksData = [
+                {
+                    title: "The Quantum Leap in Computing",
+                    speakers: ["Dr. Evelyn Reed"],
+                    categories: ["Quantum", "Hardware", "Future Tech"],
+                    description: "An exploration into the next generation of computing power and its potential to solve currently unsolvable problems."
+                },
+                {
+                    title: "Building Scalable APIs with GraphQL",
+                    speakers: ["Mark Chen", "Isabella Garcia"],
+                    categories: ["Web", "API", "GraphQL"],
+                    description: "Learn the best practices for designing and deploying robust, scalable APIs that clients love to use."
+                },
+                {
+                    title: "AI for Everyone: Practical Applications",
+                    speakers: ["Samira Khan"],
+                    categories: ["AI", "Machine Learning"],
+                    description: "This talk demystifies artificial intelligence and showcases how it can be applied in everyday business challenges."
+                },
+                {
+                    title: "The State of Cloud-Native Security",
+                    speakers: ["Alexi Petrov"],
+                    categories: ["Cloud", "Security", "DevOps"],
+                    description: "A comprehensive overview of the current security landscape in cloud-native architectures and how to protect your assets."
+                },
+                {
+                    title: "Frontend Frameworks in 2024: A Comparative Analysis",
+                    speakers: ["Chris Taylor", "Yuki Tanaka"],
+                    categories: ["Web", "Frontend", "JavaScript"],
+                    description: "We compare the performance, developer experience, and ecosystem of the top frontend frameworks today."
+                },
+                {
+                    title: "Sustainable Software: Writing Greener Code",
+                    speakers: ["Dr. Ben Carter"],
+                    categories: ["Green Tech", "Best Practices", "Cloud"],
+                    description: "Discover the principles of sustainable software engineering and how to reduce the carbon footprint of your applications."
+                }
+            ];
+
+            const scheduleLayout = [
+                { time: "10:00 AM", type: "talk", talkIndex: 0 },
+                { time: "11:00 AM", type: "transition" },
+                { time: "11:10 AM", type: "talk", talkIndex: 1 },
+                { time: "12:10 PM", type: "transition" },
+                { time: "12:20 PM", type: "talk", talkIndex: 2 },
+                { time: "1:20 PM", type: "lunch", title: "Lunch Break" },
+                { time: "2:20 PM", type: "talk", talkIndex: 3 },
+                { time: "3:20 PM", type: "transition" },
+                { time: "3:30 PM", type: "talk", talkIndex: 4 },
+                { time: "4:30 PM", type: "transition" },
+                { time: "4:40 PM", type: "talk", talkIndex: 5 },
+                { time: "5:40 PM", type: "end", title: "Event Concludes" }
+            ];
+
+            const scheduleContainer = document.getElementById('schedule-container');
+            const searchBar = document.getElementById('search-bar');
+
+            const allTalks = talksData.map((talk, index) => ({...talk, id: index}));
+
+            function renderSchedule(filter = '') {
+                scheduleContainer.innerHTML = '';
+                const filterLower = filter.toLowerCase();
+
+                let filteredTalkIds = allTalks
+                    .filter(talk => talk.categories.some(cat => cat.toLowerCase().includes(filterLower)))
+                    .map(talk => talk.id);
+
+                for (let i = 0; i < scheduleLayout.length -1; i++) {
+                    const item = scheduleLayout[i];
+                    const nextItem = scheduleLayout[i+1];
+                    
+                    let html = '';
+
+                    if (item.type === 'talk') {
+                        const talk = talksData[item.talkIndex];
+                        
+                        if (filter && !filteredTalkIds.includes(item.talkIndex)) {
+                            continue; // Skip rendering this talk if it doesn't match the filter
+                        }
+
+                        html = `
+                            <div class="schedule-item">
+                                <div class="time-slot">${item.time} - ${nextItem.time}</div>
+                                <div class="event-details">
+                                    <h2>${talk.title}</h2>
+                                    <div class="speakers">By: ${talk.speakers.join(', ')}</div>
+                                    <p>${talk.description}</p>
+                                    <div class="categories">
+                                        ${talk.categories.map(cat => `<span class="category-tag">${cat}</span>`).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    } else if (item.type === 'lunch') {
+                         html = `
+                            <div class="schedule-item break">
+                                <div class="time-slot">${item.time} - ${nextItem.time}</div>
+                                <div class="event-details">
+                                    <h2>${item.title}</h2>
+                                </div>
+                            </div>
+                        `;
+                    } else if (item.type === 'transition') {
+                        html = `
+                             <div class="schedule-item transition">
+                                <div class="time-slot">${item.time} - ${nextItem.time}</div>
+                                <div class="event-details">
+                                    <p>Transition / Break (10 mins)</p>
+                                </div>
+                            </div>
+                        `;
+                    }
+                    
+                    scheduleContainer.innerHTML += html;
+                }
+            }
+
+            searchBar.addEventListener('input', (e) => {
+                renderSchedule(e.target.value);
+            });
+
+            // Initial render
+            renderSchedule();
+        });
+    </script>
+</body>
+</html>
